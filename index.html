@@ -4,41 +4,57 @@
 <meta charset="UTF-8">
 
 <style>
-    table.main-table {
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+    table.main-table, table.dependents-table {
         width: 100%;
         border-collapse: collapse;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        font-size: 14px;
+        margin-bottom: 20px;
     }
-
     .data-cell {
         vertical-align: top;
-        padding: 12px;
-        border: 2px solid #444;
+        padding: 15px;
+        border: 1px solid #ddd; /* Lighter border for general cells */
     }
-
     .section-title {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: bold;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        border-bottom: 2px solid #444;
-        padding-bottom: 4px;
-        letter-spacing: 1px;
+        margin-bottom: 12px;
+        color: #0056b3; /* A nice blue for titles */
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 6px;
+        letter-spacing: 0.8px;
     }
-
     .row {
-        margin: 6px 0;
+        margin-bottom: 8px;
+        display: flex; /* Use flexbox for better label-value alignment */
+        align-items: baseline;
     }
-
     .label {
         font-weight: bold;
-        width: 150px;
-        display: inline-block;
+        width: 120px; /* Fixed width for labels */
+        flex-shrink: 0; /* Prevent label from shrinking */
+        color: #555;
     }
-
     .value {
-        font-weight: 500;
+        flex-grow: 1; /* Allow value to take remaining space */
+        word-wrap: break-word; /* Break long words */
+    }
+    th, td.dep-header {
+        background-color: #f2f2f2;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+        font-weight: bold;
+        color: #333;
+    }
+    td.dep-value {
+        padding: 10px;
+        border: 1px solid #ddd;
+        vertical-align: top;
     }
 </style>
 
@@ -46,11 +62,9 @@
 <body>
 
 <table class="main-table">
-
     <tr>
         <td class="data-cell">
             <div class="section-title">Principal</div>
-
             <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
             <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
             <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="dob"></span></div>
@@ -64,7 +78,6 @@
 
         <td class="data-cell">
             <div class="section-title">Cónyuge</div>
-
             <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
             <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
             <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="s_dob"></span></div>
@@ -75,17 +88,18 @@
             <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
         </td>
     </tr>
-
 </table>
 
-<h2 style="margin-top:30px; font-family:'Segoe UI', Arial;">Dependientes (texto plano)</h2>
+<h2 style="margin-top:30px; font-family:'Segoe UI', Arial; color: #0056b3;">Dependientes</h2>
 
-<div id="deps" style="font-family:'Segoe UI', Arial; font-size:15px;"></div>
+<div id="dependents-container">
+    <!-- Dependents will be rendered here -->
+</div>
 
 <script>
 function getParam(name) {
   const url = new URL(window.location.href);
-  return url.searchParams.get(name) || "";
+  return decodeURIComponent(url.searchParams.get(name) || "");
 }
 
 // PRINCIPAL
@@ -109,33 +123,47 @@ document.getElementById("s_itin").textContent = getParam("s_itin");
 document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
 document.getElementById("s_correo").textContent = getParam("s_correo");
 
-// DEPENDIENTES EN TEXTO PLANO
-function showDep(num) {
-    const show = getParam(num + "_Show");
-    if (show !== "TRUE") return;
+// DEPENDIENTES
+const dependentsContainer = document.getElementById("dependents-container");
 
-    const div = document.getElementById("deps");
-
-    div.innerHTML += `
-        <p><b>Dependiente ${num}</b></p>
-        <p>Nombre: ${getParam(num + "_Nombre")}</p>
-        <p>Acta: ${getParam(num + "_Acta")}</p>
-        <p>Foto: ${getParam(num + "_Foto")}</p>
-        <p>SSN: ${getParam(num + "_SSN")}</p>
-        <p>DOB: ${getParam(num + "_DOB")}</p>
-        <p>Relación: ${getParam(num + "_Relacion")}</p>
-        <p>Estudia: ${getParam(num + "_Estudia")}</p>
-        <p>Discapacidad: ${getParam(num + "_Discapacidad")}</p>
-        <hr>
-    `;
+for (let i = 1; i <= 6; i++) {
+    const show = getParam(i + "_Show");
+    if (show === "TRUE") {
+        const dependentHtml = `
+            <table class="dependents-table">
+                <tr>
+                    <td colspan="4" class="dep-header">Dependiente ${i}</td>
+                </tr>
+                <tr>
+                    <td class="dep-header">Nombre:</td>
+                    <td class="dep-value">${getParam(i + "_Nombre")}</td>
+                    <td class="dep-header">Acta:</td>
+                    <td class="dep-value">${getParam(i + "_Acta")}</td>
+                </tr>
+                <tr>
+                    <td class="dep-header">SSN:</td>
+                    <td class="dep-value">${getParam(i + "_SSN")}</td>
+                    <td class="dep-header">Fecha Nac.:</td>
+                    <td class="dep-value">${getParam(i + "_DOB")}</td>
+                </tr>
+                <tr>
+                    <td class="dep-header">Relación:</td>
+                    <td class="dep-value">${getParam(i + "_Relacion")}</td>
+                    <td class="dep-header">Estudia:</td>
+                    <td class="dep-value">${getParam(i + "_Estudia") === "TRUE" ? "Sí" : "No"}</td>
+                </tr>
+                <tr>
+                    <td class="dep-header">Discapacidad:</td>
+                    <td class="dep-value">${getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : "No"}</td>
+                    <td class="dep-header">Foto:</td>
+                    <td class="dep-value">${getParam(i + "_Foto")}</td>
+                </tr>
+            </table>
+            <br>
+        `;
+        dependentsContainer.innerHTML += dependentHtml;
+    }
 }
-
-showDep("1");
-showDep("2");
-showDep("3");
-showDep("4");
-showDep("5");
-showDep("6");
 </script>
 
 </body>
