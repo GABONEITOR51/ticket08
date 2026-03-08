@@ -11,21 +11,19 @@
         font-size: 14px;
     }
 
-    /* SOLO LOS DATOS TIENEN BORDE */
     .data-cell {
         vertical-align: top;
         padding: 12px;
         border: 2px solid #444;
     }
 
-    /* LAS IMÁGENES NO TIENEN BORDE */
     .photo-cell {
         padding-bottom: 20px;
     }
 
     .photo-box {
         width: 100%;
-        height: 2.8in; /* grande para pasaportes */
+        height: 2.8in;
         border-radius: 10px;
         overflow: hidden;
         background: #f2f2f2;
@@ -63,6 +61,20 @@
     .value {
         font-weight: 500;
     }
+
+    /* Tabla dependientes */
+    #tabla-dependientes th, #tabla-dependientes td {
+        border: 2px solid #444;
+        padding: 8px;
+    }
+
+    #tabla-dependientes {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 14px;
+    }
 </style>
 
 </head>
@@ -70,7 +82,6 @@
 
 <table class="main-table">
 
-    <!-- FILA DE IMÁGENES SIN MARCO -->
     <tr>
         <td class="photo-cell">
             <div class="photo-box">
@@ -85,10 +96,7 @@
         </td>
     </tr>
 
-    <!-- FILA DE INFORMACIÓN CON MARCO -->
     <tr>
-
-        <!-- PRINCIPAL -->
         <td class="data-cell">
             <div class="section-title">Principal</div>
 
@@ -103,7 +111,6 @@
             <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
         </td>
 
-        <!-- CÓNYUGE -->
         <td class="data-cell">
             <div class="section-title">Cónyuge</div>
 
@@ -116,12 +123,26 @@
             <div class="row"><span class="label">Ocupación:</span> <span class="value" id="s_ocupacion"></span></div>
             <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
         </td>
-
     </tr>
 
 </table>
 
-<!-- SCRIPT PARA LEER PARÁMETROS -->
+<h2 style="margin-top:30px; font-family:'Segoe UI', Arial;">Dependientes</h2>
+
+<table id="tabla-dependientes">
+    <thead>
+        <tr style="background:#f2f2f2;">
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha Nac.</th>
+            <th>Relación</th>
+            <th>Estudia</th>
+            <th>Discapacidad</th>
+        </tr>
+    </thead>
+    <tbody id="dependientes-body"></tbody>
+</table>
+
 <script>
 function getParam(name) {
   const url = new URL(window.location.href);
@@ -152,6 +173,34 @@ document.getElementById("s_correo").textContent = getParam("s_correo");
 // FOTOS
 document.getElementById("foto").src = getParam("foto");
 document.getElementById("s_foto").src = getParam("s_foto");
+
+// DEPENDIENTES
+const dependientesRaw = getParam("dependientes");
+
+if (dependientesRaw) {
+    try {
+        const dependientes = JSON.parse(dependientesRaw);
+        const tbody = document.getElementById("dependientes-body");
+
+        dependientes.forEach(dep => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${dep.nombre || ""}</td>
+                <td>${dep.apellido || ""}</td>
+                <td>${dep.dob || ""}</td>
+                <td>${dep.relacion || ""}</td>
+                <td>${dep.estudia || ""}</td>
+                <td>${dep.discapacidad || ""}</td>
+            `;
+
+            tbody.appendChild(row);
+        });
+
+    } catch (e) {
+        console.error("Error leyendo dependientes:", e);
+    }
+}
 </script>
 
 </body>
