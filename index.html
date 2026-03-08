@@ -1,163 +1,76 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0.5in;
-        font-size: 12px;
-    }
-
-    .id-container {
+    .two-columns {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
+        gap: 40px;
+        margin-top: 25px;
     }
 
-    .id-box {
-        width: 3.37in;
-        height: 2.13in;
-        border: 1px solid #000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
+    .card {
+        width: 48%;
+        padding: 20px;
+        border: 2px solid #444;
+        border-radius: 10px;
+        background: #fafafa;
     }
 
-    .id-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
-
-    th, td {
-        border: 1px solid #000;
-        padding: 6px;
-        text-align: left;
-        font-size: 11px;
-    }
-
-    .section-title {
-        background: #e0e0e0;
-        font-weight: bold;
+    .card h2 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #444;
+        padding-bottom: 4px;
         text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .row {
+        margin: 6px 0;
+        font-size: 14px;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #333;
+        width: 150px;
+        display: inline-block;
+    }
+
+    .value {
+        font-weight: 500;
+        color: #000;
     }
 </style>
-</head>
 
-<body>
+<!-- CONTENEDOR PRINCIPAL + CÓNYUGE -->
+<div class="two-columns">
 
-<!-- IMÁGENES DE IDENTIFICACIÓN -->
-<div class="id-container">
-    <div class="id-box">
-        <img id="foto">
+    <!-- PRINCIPAL -->
+    <div class="card">
+        <h2>Principal</h2>
+
+        <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
+        <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
+        <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="dob"></span></div>
+        <div class="row"><span class="label">Teléfono:</span> <span class="value" id="telefono"></span></div>
+        <div class="row"><span class="label">SSN:</span> <span class="value" id="ssn"></span></div>
+        <div class="row"><span class="label">ITIN:</span> <span class="value" id="itin"></span></div>
+        <div class="row"><span class="label">Ocupación:</span> <span class="value" id="ocupacion"></span></div>
+        <div class="row"><span class="label">Estado Civil:</span> <span class="value" id="ecivil"></span></div>
+        <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
     </div>
-    <div class="id-box">
-        <img id="s_foto">
+
+    <!-- CÓNYUGE -->
+    <div class="card">
+        <h2>Cónyuge</h2>
+
+        <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
+        <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
+        <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="s_dob"></span></div>
+        <div class="row"><span class="label">Teléfono:</span> <span class="value" id="s_telefono"></span></div>
+        <div class="row"><span class="label">SSN:</span> <span class="value" id="s_ssn"></span></div>
+        <div class="row"><span class="label">ITIN:</span> <span class="value" id="s_itin"></span></div>
+        <div class="row"><span class="label">Ocupación:</span> <span class="value" id="s_ocupacion"></span></div>
+        <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
     </div>
+
 </div>
-
-<!-- TABLA PRINCIPAL -->
-<table>
-
-    <tr><th colspan="4" class="section-title">Información del Cliente</th></tr>
-
-    <tr>
-        <td><b>Nombre</b></td><td><span id="nombre"></span></td>
-        <td><b>Estado Civil</b></td><td><span id="ecivil"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Domicilio</b></td><td><span id="domicilio"></span></td>
-        <td><b>Teléfono</b></td><td><span id="telefono"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Correo</b></td><td><span id="correo"></span></td>
-        <td><b>Fecha Nac.</b></td><td><span id="dob"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>SSN</b></td><td><span id="ssn"></span></td>
-        <td><b>ITIN</b></td><td><span id="itin"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Ocupación</b></td><td colspan="3"><span id="ocupacion"></span></td>
-    </tr>
-
-    <tr><th colspan="4" class="section-title">Cónyuge</th></tr>
-
-    <tr>
-        <td><b>Nombre</b></td><td><span id="s_nombre"></span></td>
-        <td><b>Fecha Nac.</b></td><td><span id="s_dob"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Teléfono</b></td><td><span id="s_telefono"></span></td>
-        <td><b>SSN</b></td><td><span id="s_ssn"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Ocupación</b></td><td colspan="3"><span id="s_ocupacion"></span></td>
-    </tr>
-
-    <tr><th colspan="4" class="section-title">Información Bancaria</th></tr>
-
-    <tr>
-        <td><b>Banco</b></td><td><span id="banco"></span></td>
-        <td><b>Cuenta</b></td><td><span id="cuenta"></span></td>
-    </tr>
-
-    <tr>
-        <td><b>Routing</b></td><td colspan="3"><span id="routing"></span></td>
-    </tr>
-
-</table>
-
-<script>
-function getParam(name) {
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name) || "";
-}
-
-// CLIENTE
-document.getElementById("nombre").textContent = getParam("nombre");
-document.getElementById("domicilio").textContent = getParam("domicilio");
-document.getElementById("correo").textContent = getParam("correo");
-document.getElementById("telefono").textContent = getParam("telefono");
-document.getElementById("dob").textContent = getParam("dob");
-document.getElementById("ssn").textContent = getParam("ssn");
-document.getElementById("itin").textContent = getParam("itin");
-document.getElementById("ocupacion").textContent = getParam("ocupacion");
-document.getElementById("ecivil").textContent = getParam("ecivil");
-
-// PAREJA
-document.getElementById("s_nombre").textContent = getParam("s_nombre");
-document.getElementById("s_telefono").textContent = getParam("s_telefono");
-document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
-document.getElementById("s_dob").textContent = getParam("s_dob");
-document.getElementById("s_ssn").textContent = getParam("s_ssn");
-
-// BANCO
-document.getElementById("banco").textContent = getParam("banco");
-document.getElementById("routing").textContent = getParam("routing");
-document.getElementById("cuenta").textContent = getParam("cuenta");
-
-// FOTOS
-document.getElementById("foto").src = getParam("foto");
-document.getElementById("s_foto").src = getParam("s_foto");
-</script>
-
-</body>
-</html>
-
-
-
