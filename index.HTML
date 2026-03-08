@@ -1,50 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Etiqueta de Producto</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        width: 80mm; /* Ancho de la etiqueta */
-        margin: 0;
-        padding: 0;
-        text-align: center; /* Centrar el contenido */
+        margin: 0.5in;
+        font-size: 12px;
     }
-    .label {
-        border: 1px solid #000; /* Opcional: borde para la etiqueta */
-        padding: 10px;
-        margin: 0 auto;
+
+    .id-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
     }
-    .barcode {
-        margin-top: 20px;
+
+    .id-box {
+        width: 3.37in;
+        height: 2.13in;
+        border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .id-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: left;
+        font-size: 11px;
+    }
+
+    .section-title {
+        background: #e0e0e0;
+        font-weight: bold;
+        text-transform: uppercase;
     }
 </style>
 </head>
+
 <body>
-    <div class="label">
-        <div>
-            <strong>Cliente:</strong>
-            <span id="NombreCompleto"></span>
-        </div>
-        <div class="barcode">
-            <img id="CodigoBarra" alt="Código de barras">
-        </div>
+
+<!-- IMÁGENES DE IDENTIFICACIÓN -->
+<div class="id-container">
+    <div class="id-box">
+        <img src="<<[Foto]>>">
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Simulamos valores de las variables NombreCompleto y Codigo
-            const NombreCompleto = "Juan Pérez";
-            const Codigo = "123456789";
+    <div class="id-box">
+        <img src="<<[S_Foto]>>">
+    </div>
+</div>
 
-            // Insertamos el nombre del cliente
-            document.getElementById("NombreCompleto").textContent = NombreCompleto;
+<!-- TABLA PRINCIPAL -->
+<table>
 
-            // Generamos una imagen de código de barras
-            const img = document.getElementById("CodigoBarra");
-            img.src = `https://barcode.tec-it.com/barcode.ashx?data=${Codigo}&code=Code128&dpi=96`;
-        });
-    </script>
+    <tr><th colspan="4" class="section-title">Información del Cliente</th></tr>
+
+    <tr>
+        <td><b>Nombre</b></td><td><<[Nombre]>></td>
+        <td><b>Estado Civil</b></td><td><<[E_Civil]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Domicilio</b></td><td><<[Domicilio]>></td>
+        <td><b>Teléfono</b></td><td><<[Telefono]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Correo</b></td><td><<[Correo]>></td>
+        <td><b>Fecha Nac.</b></td><td><<[DOB]>></td>
+    </tr>
+
+    <tr>
+        <td><b>SSN</b></td><td><<[SSN]>></td>
+        <td><b>ITIN</b></td><td><<[ITIN]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Ocupación</b></td><td colspan="3"><<[Ocupacion]>></td>
+    </tr>
+
+    <tr><th colspan="4" class="section-title">Cónyuge</th></tr>
+
+    <tr>
+        <td><b>Nombre</b></td><td><<[S_Nombre]>></td>
+        <td><b>Fecha Nac.</b></td><td><<[S_DOB]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Teléfono</b></td><td><<[S_Telefono]>></td>
+        <td><b>SSN</b></td><td><<[S_SSN]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Ocupación</b></td><td colspan="3"><<[S_Ocupacion]>></td>
+    </tr>
+
+    <tr><th colspan="4" class="section-title">Información Bancaria</th></tr>
+
+    <tr>
+        <td><b>Banco</b></td><td><<[Banco]>></td>
+        <td><b>Cuenta</b></td><td><<[Cuenta]>></td>
+    </tr>
+
+    <tr>
+        <td><b>Routing</b></td><td colspan="3"><<[Routing]>></td>
+    </tr>
+
+    <tr><th colspan="4" class="section-title">Dependientes</th></tr>
+
+    <!-- Dependiente 1 -->
+    <<IF([1_Show]="Y")>>
+    <tr><td colspan="4"><b>Dependiente 1</b></td></tr>
+    <tr>
+        <td><b>Nombre</b></td><td><<[1_Nombre]>></td>
+        <td><b>SSN</b></td><td><<[1_SSN]>></td>
+    </tr>
+    <tr>
+        <td><b>DOB</b></td><td><<[1_DOB]>></td>
+        <td><b>Relación</b></td><td><<[1_Relacion]>></td>
+    </tr>
+    <tr>
+        <td><b>Estudia</b></td><td><<[1_Estudia]>></td>
+        <td><b>Discapacidad</b></td><td><<[1_Discapacidad]>></td>
+    </tr>
+    <<ENDIF>>
+
+    <!-- Dependiente 2 -->
+    <<IF([2_Show]="Y")>>
+    <tr><td colspan="4"><b>Dependiente 2</b></td></tr>
+    <tr>
+        <td><b>Nombre</b></td><td><<[2_Nombre]>></td>
+        <td><b>SSN</b></td><td><<[2_SSN]>></td>
+    </tr>
+    <tr>
+        <td><b>DOB</b></td><td><<[2_DOB]>></td>
+        <td><b>Relación</b></td><td><<[2_Relacion]>></td>
+    </tr>
+    <tr>
+        <td><b>Estudia</b></td><td><<[2_Estudia]>></td>
+        <td><b>Discapacidad</b></td><td><<[2_Discapacidad]>></td>
+    </tr>
+    <<ENDIF>>
+
+    <!-- Dependientes 3–6 repetir igual -->
+</table>
+
 </body>
 </html>
+
+
