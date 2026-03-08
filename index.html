@@ -133,7 +133,9 @@
     <thead>
         <tr style="background:#f2f2f2;">
             <th>Nombre</th>
-            <th>Apellido</th>
+            <th>Acta</th>
+            <th>Foto</th>
+            <th>SSN</th>
             <th>Fecha Nac.</th>
             <th>Relación</th>
             <th>Estudia</th>
@@ -175,32 +177,35 @@ document.getElementById("foto").src = getParam("foto");
 document.getElementById("s_foto").src = getParam("s_foto");
 
 // DEPENDIENTES
-const dependientesRaw = getParam("dependientes");
+function addDep(num) {
+    if (getParam(num + "_show") !== "TRUE") return;
 
-if (dependientesRaw) {
-    try {
-        const dependientes = JSON.parse(dependientesRaw);
-        const tbody = document.getElementById("dependientes-body");
+    const tbody = document.getElementById("dependientes-body");
+    const row = document.createElement("tr");
 
-        dependientes.forEach(dep => {
-            const row = document.createElement("tr");
+    const foto = getParam(num + "_foto");
 
-            row.innerHTML = `
-                <td>${dep.nombre || ""}</td>
-                <td>${dep.apellido || ""}</td>
-                <td>${dep.dob || ""}</td>
-                <td>${dep.relacion || ""}</td>
-                <td>${dep.estudia || ""}</td>
-                <td>${dep.discapacidad || ""}</td>
-            `;
+    row.innerHTML = `
+        <td>${getParam(num + "_nombre")}</td>
+        <td>${getParam(num + "_acta")}</td>
+        <td>${foto ? `<img src="${foto}" style="width:60px;height:60px;border-radius:6px;object-fit:cover;">` : ""}</td>
+        <td>${getParam(num + "_ssn")}</td>
+        <td>${getParam(num + "_dob")}</td>
+        <td>${getParam(num + "_relacion")}</td>
+        <td>${getParam(num + "_estudia")}</td>
+        <td>${getParam(num + "_discapacidad")}</td>
+    `;
 
-            tbody.appendChild(row);
-        });
-
-    } catch (e) {
-        console.error("Error leyendo dependientes:", e);
-    }
+    tbody.appendChild(row);
 }
+
+// Agregar dependientes 1 a 6
+addDep("1");
+addDep("2");
+addDep("3");
+addDep("4");
+addDep("5");
+addDep("6");
 </script>
 
 </body>
