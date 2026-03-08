@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
 <style>
     table.main-table {
         width: 100%;
@@ -60,6 +65,9 @@
     }
 </style>
 
+</head>
+<body>
+
 <table class="main-table">
 
     <!-- FILA DE IMÁGENES SIN MARCO -->
@@ -112,3 +120,39 @@
     </tr>
 
 </table>
+
+<!-- SCRIPT PARA LEER PARÁMETROS -->
+<script>
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name) || "";
+}
+
+// PRINCIPAL
+document.getElementById("nombre").textContent = getParam("nombre");
+document.getElementById("domicilio").textContent = getParam("domicilio");
+document.getElementById("dob").textContent = getParam("dob");
+document.getElementById("telefono").textContent = getParam("telefono");
+document.getElementById("ssn").textContent = getParam("ssn");
+document.getElementById("itin").textContent = getParam("itin");
+document.getElementById("ocupacion").textContent = getParam("ocupacion");
+document.getElementById("ecivil").textContent = getParam("ecivil");
+document.getElementById("correo").textContent = getParam("correo");
+
+// CÓNYUGE
+document.getElementById("s_nombre").textContent = getParam("s_nombre");
+document.getElementById("s_domicilio").textContent = getParam("s_domicilio");
+document.getElementById("s_dob").textContent = getParam("s_dob");
+document.getElementById("s_telefono").textContent = getParam("s_telefono");
+document.getElementById("s_ssn").textContent = getParam("s_ssn");
+document.getElementById("s_itin").textContent = getParam("s_itin");
+document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
+document.getElementById("s_correo").textContent = getParam("s_correo");
+
+// FOTOS
+document.getElementById("foto").src = getParam("foto");
+document.getElementById("s_foto").src = getParam("s_foto");
+</script>
+
+</body>
+</html>
