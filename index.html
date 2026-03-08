@@ -62,7 +62,6 @@
         font-weight: 500;
     }
 
-    /* Tabla dependientes */
     #tabla-dependientes th, #tabla-dependientes td {
         border: 2px solid #444;
         padding: 8px;
@@ -178,28 +177,27 @@ document.getElementById("s_foto").src = getParam("s_foto");
 
 // DEPENDIENTES
 function addDep(num) {
-    if (getParam(num + "_show") !== "TRUE") return;
+    if (getParam(num + "_Show") !== "TRUE") return;
 
     const tbody = document.getElementById("dependientes-body");
     const row = document.createElement("tr");
 
-    const foto = getParam(num + "_foto");
+    const foto = getParam(num + "_Foto");
 
     row.innerHTML = `
-        <td>${getParam(num + "_nombre")}</td>
-        <td>${getParam(num + "_acta")}</td>
+        <td>${getParam(num + "_Nombre")}</td>
+        <td>${getParam(num + "_Acta")}</td>
         <td>${foto ? `<img src="${foto}" style="width:60px;height:60px;border-radius:6px;object-fit:cover;">` : ""}</td>
-        <td>${getParam(num + "_ssn")}</td>
-        <td>${getParam(num + "_dob")}</td>
-        <td>${getParam(num + "_relacion")}</td>
-        <td>${getParam(num + "_estudia")}</td>
-        <td>${getParam(num + "_discapacidad")}</td>
+        <td>${getParam(num + "_SSN")}</td>
+        <td>${getParam(num + "_DOB")}</td>
+        <td>${getParam(num + "_Relacion")}</td>
+        <td>${getParam(num + "_Estudia")}</td>
+        <td>${getParam(num + "_Discapacidad")}</td>
     `;
 
     tbody.appendChild(row);
 }
 
-// Agregar dependientes 1 a 6
 addDep("1");
 addDep("2");
 addDep("3");
