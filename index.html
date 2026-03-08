@@ -1,76 +1,114 @@
 <style>
-    .two-columns {
-        display: flex;
-        justify-content: space-between;
-        gap: 40px;
-        margin-top: 25px;
+    table.main-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 14px;
     }
 
-    .card {
-        width: 48%;
-        padding: 20px;
+    /* SOLO LOS DATOS TIENEN BORDE */
+    .data-cell {
+        vertical-align: top;
+        padding: 12px;
         border: 2px solid #444;
-        border-radius: 10px;
-        background: #fafafa;
     }
 
-    .card h2 {
+    /* LAS IMÁGENES NO TIENEN BORDE */
+    .photo-cell {
+        padding-bottom: 20px;
+    }
+
+    .photo-box {
+        width: 100%;
+        height: 2.8in; /* grande para pasaportes */
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .section-title {
         font-size: 20px;
-        margin-bottom: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-transform: uppercase;
         border-bottom: 2px solid #444;
         padding-bottom: 4px;
-        text-transform: uppercase;
         letter-spacing: 1px;
     }
 
     .row {
         margin: 6px 0;
-        font-size: 14px;
     }
 
     .label {
         font-weight: bold;
-        color: #333;
         width: 150px;
         display: inline-block;
     }
 
     .value {
         font-weight: 500;
-        color: #000;
     }
 </style>
 
-<!-- CONTENEDOR PRINCIPAL + CÓNYUGE -->
-<div class="two-columns">
+<table class="main-table">
 
-    <!-- PRINCIPAL -->
-    <div class="card">
-        <h2>Principal</h2>
+    <!-- FILA DE IMÁGENES SIN MARCO -->
+    <tr>
+        <td class="photo-cell">
+            <div class="photo-box">
+                <img id="foto">
+            </div>
+        </td>
 
-        <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
-        <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
-        <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="dob"></span></div>
-        <div class="row"><span class="label">Teléfono:</span> <span class="value" id="telefono"></span></div>
-        <div class="row"><span class="label">SSN:</span> <span class="value" id="ssn"></span></div>
-        <div class="row"><span class="label">ITIN:</span> <span class="value" id="itin"></span></div>
-        <div class="row"><span class="label">Ocupación:</span> <span class="value" id="ocupacion"></span></div>
-        <div class="row"><span class="label">Estado Civil:</span> <span class="value" id="ecivil"></span></div>
-        <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
-    </div>
+        <td class="photo-cell">
+            <div class="photo-box">
+                <img id="s_foto">
+            </div>
+        </td>
+    </tr>
 
-    <!-- CÓNYUGE -->
-    <div class="card">
-        <h2>Cónyuge</h2>
+    <!-- FILA DE INFORMACIÓN CON MARCO -->
+    <tr>
 
-        <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
-        <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
-        <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="s_dob"></span></div>
-        <div class="row"><span class="label">Teléfono:</span> <span class="value" id="s_telefono"></span></div>
-        <div class="row"><span class="label">SSN:</span> <span class="value" id="s_ssn"></span></div>
-        <div class="row"><span class="label">ITIN:</span> <span class="value" id="s_itin"></span></div>
-        <div class="row"><span class="label">Ocupación:</span> <span class="value" id="s_ocupacion"></span></div>
-        <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
-    </div>
+        <!-- PRINCIPAL -->
+        <td class="data-cell">
+            <div class="section-title">Principal</div>
 
-</div>
+            <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
+            <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
+            <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="dob"></span></div>
+            <div class="row"><span class="label">Teléfono:</span> <span class="value" id="telefono"></span></div>
+            <div class="row"><span class="label">SSN:</span> <span class="value" id="ssn"></span></div>
+            <div class="row"><span class="label">ITIN:</span> <span class="value" id="itin"></span></div>
+            <div class="row"><span class="label">Ocupación:</span> <span class="value" id="ocupacion"></span></div>
+            <div class="row"><span class="label">Estado Civil:</span> <span class="value" id="ecivil"></span></div>
+            <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
+        </td>
+
+        <!-- CÓNYUGE -->
+        <td class="data-cell">
+            <div class="section-title">Cónyuge</div>
+
+            <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
+            <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
+            <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="s_dob"></span></div>
+            <div class="row"><span class="label">Teléfono:</span> <span class="value" id="s_telefono"></span></div>
+            <div class="row"><span class="label">SSN:</span> <span class="value" id="s_ssn"></span></div>
+            <div class="row"><span class="label">ITIN:</span> <span class="value" id="s_itin"></span></div>
+            <div class="row"><span class="label">Ocupación:</span> <span class="value" id="s_ocupacion"></span></div>
+            <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
+        </td>
+
+    </tr>
+
+</table>
