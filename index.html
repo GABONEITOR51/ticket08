@@ -7,49 +7,48 @@
     body {
         font-family: 'Segoe UI', Arial, sans-serif;
         color: #333;
-        line-height: 1.6;
+        line-height: 1.4;
+        margin: 10px;
     }
 
     .title-header {
-        font-size: 30px;
+        font-size: 26px;
         font-weight: bold;
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         color: #003366;
-        letter-spacing: 1px;
     }
 
     table.main-table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .data-cell {
         vertical-align: top;
-        padding: 15px;
-        border: 1px solid #ddd;
+        padding: 8px;
+        border: 1px solid #ccc;
     }
 
     .section-title {
-        font-size: 22px;
+        font-size: 18px;
         font-weight: bold;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
         color: #0056b3;
-        border-bottom: 2px solid #0056b3;
-        padding-bottom: 6px;
-        letter-spacing: 0.8px;
+        border-bottom: 1px solid #0056b3;
+        padding-bottom: 3px;
     }
 
     .row {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         display: flex;
         align-items: baseline;
     }
 
     .label {
         font-weight: bold;
-        width: 120px;
+        width: 110px;
         flex-shrink: 0;
         color: #555;
     }
@@ -62,14 +61,15 @@
     table.dependents-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     table.dependents-table th,
     table.dependents-table td {
-        padding: 8px;
-        border: 1px solid #ccc;
+        padding: 5px;
+        border: 1px solid #bbb;
         text-align: center;
+        font-size: 13px;
     }
 
     table.dependents-table th {
@@ -78,15 +78,15 @@
     }
 
     .signature-section {
-        margin-top: 60px;
+        margin-top: 40px;
         text-align: center;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .signature-line {
-        margin-top: 40px;
+        margin-top: 25px;
         border-top: 1px solid #000;
-        width: 60%;
+        width: 50%;
         margin-left: auto;
         margin-right: auto;
         padding-top: 5px;
@@ -127,17 +127,17 @@
     </tr>
 </table>
 
-<h2 style="margin-top:30px; font-family:'Segoe UI', Arial; color: #0056b3;">Dependientes</h2>
+<h2 id="depend-title" style="margin-top:20px; color:#0056b3;">Dependientes</h2>
 
-<table class="dependents-table">
+<table class="dependents-table" id="depend-table">
     <tr>
         <th>#</th>
-        <th>Nombre</th>
+        <th>Nombre Dependiente</th>
         <th>SSN</th>
         <th>Fecha Nac.</th>
         <th>Relación</th>
-        <th style="width:40px;">Est</th>
-        <th style="width:40px;">Disc</th>
+        <th style="width:35px;">Est</th>
+        <th style="width:35px;">Disc</th>
     </tr>
 
     <tbody id="dependents-body"></tbody>
@@ -155,7 +155,6 @@ function getParam(name) {
   return decodeURIComponent(url.searchParams.get(name) || "");
 }
 
-// Formato de fecha → Ago/15/2000
 function formatDOB(dateStr) {
     if (!dateStr) return "";
     const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
@@ -187,10 +186,11 @@ document.getElementById("s_correo").textContent = getParam("s_correo");
 
 // DEPENDIENTES
 const tbody = document.getElementById("dependents-body");
+let dependientesCount = 0;
 
 for (let i = 1; i <= 6; i++) {
 
-    const nombre = getParam(i + "_Nombre Dependiente");
+    const nombre = getParam(i + "_Nombre");
     const ssn = getParam(i + "_SSN");
     const dob = formatDOB(getParam(i + "_DOB"));
     const relacion = getParam(i + "_Relacion");
@@ -198,10 +198,9 @@ for (let i = 1; i <= 6; i++) {
     const estudia = getParam(i + "_Estudia") === "TRUE" ? "✔" : "";
     const discapacidad = getParam(i + "_Discapacidad") === "TRUE" ? "✔" : "";
 
-    // Si TODAS las celdas están vacías → NO mostrar fila
-    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) {
-        continue;
-    }
+    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
+
+    dependientesCount++;
 
     const row = `
         <tr>
@@ -216,8 +215,13 @@ for (let i = 1; i <= 6; i++) {
     `;
     tbody.innerHTML += row;
 }
+
+// SI NO HAY DEPENDIENTES → OCULTAR TABLA Y TÍTULO
+if (dependientesCount === 0) {
+    document.getElementById("depend-table").style.display = "none";
+    document.getElementById("depend-title").style.display = "none";
+}
 </script>
 
 </body>
 </html>
-
