@@ -9,6 +9,17 @@
         color: #333;
         line-height: 1.6;
     }
+
+    /* Encabezado */
+    .title-header {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 25px;
+        color: #003366;
+        letter-spacing: 1px;
+    }
+
     table.main-table, table.dependents-table {
         width: 100%;
         border-collapse: collapse;
@@ -17,31 +28,31 @@
     .data-cell {
         vertical-align: top;
         padding: 15px;
-        border: 1px solid #ddd; /* Lighter border for general cells */
+        border: 1px solid #ddd;
     }
     .section-title {
         font-size: 22px;
         font-weight: bold;
         margin-bottom: 12px;
-        color: #0056b3; /* A nice blue for titles */
+        color: #0056b3;
         border-bottom: 2px solid #0056b3;
         padding-bottom: 6px;
         letter-spacing: 0.8px;
     }
     .row {
         margin-bottom: 8px;
-        display: flex; /* Use flexbox for better label-value alignment */
+        display: flex;
         align-items: baseline;
     }
     .label {
         font-weight: bold;
-        width: 120px; /* Fixed width for labels */
-        flex-shrink: 0; /* Prevent label from shrinking */
+        width: 120px;
+        flex-shrink: 0;
         color: #555;
     }
     .value {
-        flex-grow: 1; /* Allow value to take remaining space */
-        word-wrap: break-word; /* Break long words */
+        flex-grow: 1;
+        word-wrap: break-word;
     }
     th, td.dep-header {
         background-color: #f2f2f2;
@@ -56,10 +67,27 @@
         border: 1px solid #ddd;
         vertical-align: top;
     }
+
+    /* Firma */
+    .signature-section {
+        margin-top: 60px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .signature-line {
+        margin-top: 40px;
+        border-top: 1px solid #000;
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 5px;
+    }
 </style>
 
 </head>
 <body>
+
+<div class="title-header">FORMULARIO PARA TAXES</div>
 
 <table class="main-table">
     <tr>
@@ -92,8 +120,13 @@
 
 <h2 style="margin-top:30px; font-family:'Segoe UI', Arial; color: #0056b3;">Dependientes</h2>
 
-<div id="dependents-container">
-    <!-- Dependents will be rendered here -->
+<div id="dependents-container"></div>
+
+<!-- Firma -->
+<div class="signature-section">
+    <div class="signature-line"></div>
+    firma<br>
+    Nombre y fecha
 </div>
 
 <script>
