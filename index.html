@@ -85,7 +85,7 @@
 </head>
 <body>
 
-<div class="title-header">FORMULARIO PARA TAXES</div>
+<div class="title-header">Formulario para taxes</div>
 
 <table class="main-table">
     <tr>
@@ -153,12 +153,16 @@ document.getElementById("s_itin").textContent = getParam("s_itin");
 document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
 document.getElementById("s_correo").textContent = getParam("s_correo");
 
-// DEPENDIENTES
+// DEPENDIENTES (Opción B)
 const dependentsContainer = document.getElementById("dependents-container");
 
 for (let i = 1; i <= 6; i++) {
-    const show = getParam(i + "_Show");
-    if (show === "TRUE") {
+
+    const nombreDep = getParam(i + "_Nombre");
+
+    // Mostrar dependiente solo si tiene nombre
+    if (nombreDep !== "") {
+
         const dependentHtml = `
             <table class="dependents-table">
                 <tr>
@@ -166,7 +170,7 @@ for (let i = 1; i <= 6; i++) {
                 </tr>
                 <tr>
                     <td class="dep-header">Nombre:</td>
-                    <td class="dep-value">${getParam(i + "_Nombre")}</td>
+                    <td class="dep-value">${nombreDep}</td>
                     <td class="dep-header">Acta:</td>
                     <td class="dep-value">${getParam(i + "_Acta")}</td>
                 </tr>
@@ -198,4 +202,3 @@ for (let i = 1; i <= 6; i++) {
 
 </body>
 </html>
-
