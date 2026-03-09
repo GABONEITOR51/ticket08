@@ -140,10 +140,8 @@
         <th>Estudia</th>
         <th>Discapacidad</th>
         <th>Acta</th>
-        <th>Foto</th>
     </tr>
 
-    <!-- Filas 1 a 6 -->
     <tbody id="dependents-body"></tbody>
 </table>
 
@@ -180,7 +178,7 @@ document.getElementById("s_itin").textContent = getParam("s_itin");
 document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
 document.getElementById("s_correo").textContent = getParam("s_correo");
 
-// DEPENDIENTES EN TABLA PLANA
+// DEPENDIENTES (tabla plana sin foto)
 const tbody = document.getElementById("dependents-body");
 
 for (let i = 1; i <= 6; i++) {
@@ -194,7 +192,6 @@ for (let i = 1; i <= 6; i++) {
             <td>${getParam(i + "_Estudia") === "TRUE" ? "Sí" : ""}</td>
             <td>${getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : ""}</td>
             <td>${getParam(i + "_Acta")}</td>
-            <td>${getParam(i + "_Foto")}</td>
         </tr>
     `;
     tbody.innerHTML += row;
