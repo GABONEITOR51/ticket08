@@ -69,7 +69,7 @@
     table.dependents-table td {
         padding: 8px;
         border: 1px solid #ccc;
-        text-align: center; /* CENTRAR TODO */
+        text-align: center;
     }
 
     table.dependents-table th {
@@ -136,9 +136,8 @@
         <th>SSN</th>
         <th>Fecha Nac.</th>
         <th>Relación</th>
-        <th>Estudia</th>
-        <th>Discapacidad</th>
-        <th>Acta</th>
+        <th style="width:40px;">Est</th>
+        <th style="width:40px;">Disc</th>
     </tr>
 
     <tbody id="dependents-body"></tbody>
@@ -195,12 +194,12 @@ for (let i = 1; i <= 6; i++) {
     const ssn = getParam(i + "_SSN");
     const dob = formatDOB(getParam(i + "_DOB"));
     const relacion = getParam(i + "_Relacion");
-    const estudia = getParam(i + "_Estudia") === "TRUE" ? "Sí" : "";
-    const discapacidad = getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : "";
-    const acta = getParam(i + "_Acta");
+
+    const estudia = getParam(i + "_Estudia") === "TRUE" ? "✔" : "";
+    const discapacidad = getParam(i + "_Discapacidad") === "TRUE" ? "✔" : "";
 
     // Si TODAS las celdas están vacías → NO mostrar fila
-    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad && !acta) {
+    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) {
         continue;
     }
 
@@ -213,7 +212,6 @@ for (let i = 1; i <= 6; i++) {
             <td>${relacion}</td>
             <td>${estudia}</td>
             <td>${discapacidad}</td>
-            <td>${acta}</td>
         </tr>
     `;
     tbody.innerHTML += row;
