@@ -10,7 +10,6 @@
         line-height: 1.6;
     }
 
-    /* Encabezado */
     .title-header {
         font-size: 30px;
         font-weight: bold;
@@ -18,34 +17,6 @@
         margin-bottom: 10px;
         color: #003366;
         letter-spacing: 1px;
-    }
-
-    /* Fotos */
-    .photos-container {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin-bottom: 25px;
-        margin-top: 5px;
-    }
-
-    .photo-box {
-        text-align: center;
-    }
-
-.photo-img {
-    width: 220px;       /* ancho fijo */
-    height: 150px;      /* alto fijo */
-    object-fit: cover;  /* recorta suavemente para llenar el marco */
-    border: 2px solid #ccc;
-    border-radius: 6px;
-}
-
-    .photo-label {
-        margin-top: 8px;
-        font-size: 14px;
-        color: #444;
-        font-weight: bold;
     }
 
     table.main-table, table.dependents-table {
@@ -96,7 +67,6 @@
         vertical-align: top;
     }
 
-    /* Firma */
     .signature-section {
         margin-top: 60px;
         text-align: center;
@@ -115,20 +85,7 @@
 </head>
 <body>
 
-<div class="title-header">Formulario para taxes</div>
-
-<!-- FOTOS -->
-<div class="photos-container">
-    <div class="photo-box">
-        <img id="foto" class="photo-img">
-        <div class="photo-label">Cliente</div>
-    </div>
-
-    <div class="photo-box">
-        <img id="s_foto" class="photo-img">
-        <div class="photo-label">Cónyuge</div>
-    </div>
-</div>
+<div class="title-header">FORMULARIO PARA TAXES</div>
 
 <table class="main-table">
     <tr>
@@ -163,7 +120,6 @@
 
 <div id="dependents-container"></div>
 
-<!-- Firma -->
 <div class="signature-section">
     <div class="signature-line"></div>
     firma<br>
@@ -175,14 +131,6 @@ function getParam(name) {
   const url = new URL(window.location.href);
   return decodeURIComponent(url.searchParams.get(name) || "");
 }
-
-// FOTOS
-document.getElementById("foto").src = getParam("foto");
-document.getElementById("s_foto").src = getParam("s_foto");
-
-// Ocultar si no existen
-if (!getParam("foto")) document.getElementById("foto").style.display = "none";
-if (!getParam("s_foto")) document.getElementById("s_foto").style.display = "none";
 
 // PRINCIPAL
 document.getElementById("nombre").textContent = getParam("nombre");
@@ -250,3 +198,4 @@ for (let i = 1; i <= 6; i++) {
 
 </body>
 </html>
+
