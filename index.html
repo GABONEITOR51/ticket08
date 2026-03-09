@@ -72,13 +72,17 @@
         font-size: 13px;
     }
 
+    table.dependents-table td.name-left {
+        text-align: left;
+    }
+
     table.dependents-table th {
         background-color: #f2f2f2;
         font-weight: bold;
     }
 
     .signature-section {
-        margin-top: 40px;
+        margin-top: 90px; /* BAJADA DE 3 ENTERS */
         text-align: center;
         font-size: 14px;
     }
@@ -163,6 +167,13 @@ function formatDOB(dateStr) {
     return `${meses[d.getMonth()]}/${d.getDate()}/${d.getFullYear()}`;
 }
 
+// ACEPTA CUALQUIER FORMATO DE TRUE QUE ENVÍE APPSHEET
+function isTrue(v) {
+    if (!v) return false;
+    v = v.toString().trim().toLowerCase();
+    return v === "true" || v === "1" || v === "sí" || v === "si" || v === "y";
+}
+
 // PRINCIPAL
 document.getElementById("nombre").textContent = getParam("nombre");
 document.getElementById("domicilio").textContent = getParam("domicilio");
@@ -195,8 +206,8 @@ for (let i = 1; i <= 6; i++) {
     const dob = formatDOB(getParam(i + "_DOB"));
     const relacion = getParam(i + "_Relacion");
 
-    const estudia = getParam(i + "_Estudia") === "TRUE" ? "✔" : "";
-    const discapacidad = getParam(i + "_Discapacidad") === "TRUE" ? "✔" : "";
+    const estudia = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
+    const discapacidad = isTrue(getParam(i + "_Discapacidad")) ? "✔" : "";
 
     if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
 
@@ -205,7 +216,7 @@ for (let i = 1; i <= 6; i++) {
     const row = `
         <tr>
             <td>${i}.-</td>
-            <td>${nombre}</td>
+            <td class="name-left">${nombre}</td>
             <td>${ssn}</td>
             <td>${dob}</td>
             <td>${relacion}</td>
