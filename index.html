@@ -65,17 +65,16 @@
         margin-top: 20px;
     }
 
-    table.dependents-table th {
-        background-color: #f2f2f2;
-        padding: 8px;
-        border: 1px solid #ccc;
-        font-weight: bold;
-        text-align: left;
-    }
-
+    table.dependents-table th,
     table.dependents-table td {
         padding: 8px;
         border: 1px solid #ccc;
+        text-align: center; /* CENTRAR TODO */
+    }
+
+    table.dependents-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
     }
 
     .signature-section {
@@ -157,10 +156,19 @@ function getParam(name) {
   return decodeURIComponent(url.searchParams.get(name) || "");
 }
 
+// Formato de fecha → Ago/15/2000
+function formatDOB(dateStr) {
+    if (!dateStr) return "";
+    const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    return `${meses[d.getMonth()]}/${d.getDate()}/${d.getFullYear()}`;
+}
+
 // PRINCIPAL
 document.getElementById("nombre").textContent = getParam("nombre");
 document.getElementById("domicilio").textContent = getParam("domicilio");
-document.getElementById("dob").textContent = getParam("dob");
+document.getElementById("dob").textContent = formatDOB(getParam("dob"));
 document.getElementById("telefono").textContent = getParam("telefono");
 document.getElementById("ssn").textContent = getParam("ssn");
 document.getElementById("itin").textContent = getParam("itin");
@@ -171,27 +179,41 @@ document.getElementById("correo").textContent = getParam("correo");
 // CÓNYUGE
 document.getElementById("s_nombre").textContent = getParam("s_nombre");
 document.getElementById("s_domicilio").textContent = getParam("s_domicilio");
-document.getElementById("s_dob").textContent = getParam("s_dob");
+document.getElementById("s_dob").textContent = formatDOB(getParam("s_dob"));
 document.getElementById("s_telefono").textContent = getParam("s_telefono");
 document.getElementById("s_ssn").textContent = getParam("s_ssn");
 document.getElementById("s_itin").textContent = getParam("s_itin");
 document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
 document.getElementById("s_correo").textContent = getParam("s_correo");
 
-// DEPENDIENTES (tabla plana sin foto)
+// DEPENDIENTES
 const tbody = document.getElementById("dependents-body");
 
 for (let i = 1; i <= 6; i++) {
+
+    const nombre = getParam(i + "_Nombre");
+    const ssn = getParam(i + "_SSN");
+    const dob = formatDOB(getParam(i + "_DOB"));
+    const relacion = getParam(i + "_Relacion");
+    const estudia = getParam(i + "_Estudia") === "TRUE" ? "Sí" : "";
+    const discapacidad = getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : "";
+    const acta = getParam(i + "_Acta");
+
+    // Si TODAS las celdas están vacías → NO mostrar fila
+    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad && !acta) {
+        continue;
+    }
+
     const row = `
         <tr>
             <td>${i}.-</td>
-            <td>${getParam(i + "_Nombre")}</td>
-            <td>${getParam(i + "_SSN")}</td>
-            <td>${getParam(i + "_DOB")}</td>
-            <td>${getParam(i + "_Relacion")}</td>
-            <td>${getParam(i + "_Estudia") === "TRUE" ? "Sí" : ""}</td>
-            <td>${getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : ""}</td>
-            <td>${getParam(i + "_Acta")}</td>
+            <td>${nombre}</td>
+            <td>${ssn}</td>
+            <td>${dob}</td>
+            <td>${relacion}</td>
+            <td>${estudia}</td>
+            <td>${discapacidad}</td>
+            <td>${acta}</td>
         </tr>
     `;
     tbody.innerHTML += row;
