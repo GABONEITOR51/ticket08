@@ -19,16 +19,18 @@
         letter-spacing: 1px;
     }
 
-    table.main-table, table.dependents-table {
+    table.main-table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
     }
+
     .data-cell {
         vertical-align: top;
         padding: 15px;
         border: 1px solid #ddd;
     }
+
     .section-title {
         font-size: 22px;
         font-weight: bold;
@@ -38,33 +40,42 @@
         padding-bottom: 6px;
         letter-spacing: 0.8px;
     }
+
     .row {
         margin-bottom: 8px;
         display: flex;
         align-items: baseline;
     }
+
     .label {
         font-weight: bold;
         width: 120px;
         flex-shrink: 0;
         color: #555;
     }
+
     .value {
         flex-grow: 1;
         word-wrap: break-word;
     }
-    th, td.dep-header {
-        background-color: #f2f2f2;
-        padding: 10px;
-        text-align: left;
-        border: 1px solid #ddd;
-        font-weight: bold;
-        color: #333;
+
+    table.dependents-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
     }
-    td.dep-value {
-        padding: 10px;
-        border: 1px solid #ddd;
-        vertical-align: top;
+
+    table.dependents-table th {
+        background-color: #f2f2f2;
+        padding: 8px;
+        border: 1px solid #ccc;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    table.dependents-table td {
+        padding: 8px;
+        border: 1px solid #ccc;
     }
 
     .signature-section {
@@ -72,6 +83,7 @@
         text-align: center;
         font-size: 16px;
     }
+
     .signature-line {
         margin-top: 40px;
         border-top: 1px solid #000;
@@ -118,7 +130,22 @@
 
 <h2 style="margin-top:30px; font-family:'Segoe UI', Arial; color: #0056b3;">Dependientes</h2>
 
-<div id="dependents-container"></div>
+<table class="dependents-table">
+    <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>SSN</th>
+        <th>Fecha Nac.</th>
+        <th>Relación</th>
+        <th>Estudia</th>
+        <th>Discapacidad</th>
+        <th>Acta</th>
+        <th>Foto</th>
+    </tr>
+
+    <!-- Filas 1 a 6 -->
+    <tbody id="dependents-body"></tbody>
+</table>
 
 <div class="signature-section">
     <div class="signature-line"></div>
@@ -153,50 +180,24 @@ document.getElementById("s_itin").textContent = getParam("s_itin");
 document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
 document.getElementById("s_correo").textContent = getParam("s_correo");
 
-// DEPENDIENTES (Opción B)
-const dependentsContainer = document.getElementById("dependents-container");
+// DEPENDIENTES EN TABLA PLANA
+const tbody = document.getElementById("dependents-body");
 
 for (let i = 1; i <= 6; i++) {
-
-    const nombreDep = getParam(i + "_Nombre");
-
-    // Mostrar dependiente solo si tiene nombre
-    if (nombreDep !== "") {
-
-        const dependentHtml = `
-            <table class="dependents-table">
-                <tr>
-                    <td colspan="4" class="dep-header">Dependiente ${i}</td>
-                </tr>
-                <tr>
-                    <td class="dep-header">Nombre:</td>
-                    <td class="dep-value">${nombreDep}</td>
-                    <td class="dep-header">Acta:</td>
-                    <td class="dep-value">${getParam(i + "_Acta")}</td>
-                </tr>
-                <tr>
-                    <td class="dep-header">SSN:</td>
-                    <td class="dep-value">${getParam(i + "_SSN")}</td>
-                    <td class="dep-header">Fecha Nac.:</td>
-                    <td class="dep-value">${getParam(i + "_DOB")}</td>
-                </tr>
-                <tr>
-                    <td class="dep-header">Relación:</td>
-                    <td class="dep-value">${getParam(i + "_Relacion")}</td>
-                    <td class="dep-header">Estudia:</td>
-                    <td class="dep-value">${getParam(i + "_Estudia") === "TRUE" ? "Sí" : "No"}</td>
-                </tr>
-                <tr>
-                    <td class="dep-header">Discapacidad:</td>
-                    <td class="dep-value">${getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : "No"}</td>
-                    <td class="dep-header">Foto:</td>
-                    <td class="dep-value">${getParam(i + "_Foto")}</td>
-                </tr>
-            </table>
-            <br>
-        `;
-        dependentsContainer.innerHTML += dependentHtml;
-    }
+    const row = `
+        <tr>
+            <td>${i}.-</td>
+            <td>${getParam(i + "_Nombre")}</td>
+            <td>${getParam(i + "_SSN")}</td>
+            <td>${getParam(i + "_DOB")}</td>
+            <td>${getParam(i + "_Relacion")}</td>
+            <td>${getParam(i + "_Estudia") === "TRUE" ? "Sí" : ""}</td>
+            <td>${getParam(i + "_Discapacidad") === "TRUE" ? "Sí" : ""}</td>
+            <td>${getParam(i + "_Acta")}</td>
+            <td>${getParam(i + "_Foto")}</td>
+        </tr>
+    `;
+    tbody.innerHTML += row;
 }
 </script>
 
