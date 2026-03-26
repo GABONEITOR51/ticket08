@@ -115,6 +115,9 @@
             <div class="row"><span class="label">Ocupación:</span> <span class="value" id="ocupacion"></span></div>
             <div class="row"><span class="label">Estado Civil:</span> <span class="value" id="ecivil"></span></div>
             <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
+            <div class="row"><span class="label">Banco:</span> <span class="value" id="banco"></span></div>
+            <div class="row"><span class="label">Cuenta:</span> <span class="value" id="cuenta"></span></div>
+            <div class="row"><span class="label">Routing:</span> <span class="value" id="routing"></span></div>
         </td>
 
         <td class="data-cell" id="cell-conyuge">
@@ -173,15 +176,18 @@ function isTrue(v) {
 }
 
 // PRINCIPAL
-document.getElementById("nombre").textContent = getParam("nombre");
+document.getElementById("nombre").textContent    = getParam("nombre");
 document.getElementById("domicilio").textContent = getParam("domicilio");
-document.getElementById("dob").textContent = formatDOB(getParam("dob"));
-document.getElementById("telefono").textContent = getParam("telefono");
-document.getElementById("ssn").textContent = getParam("ssn");
-document.getElementById("itin").textContent = getParam("itin");
+document.getElementById("dob").textContent       = formatDOB(getParam("dob"));
+document.getElementById("telefono").textContent  = getParam("telefono");
+document.getElementById("ssn").textContent       = getParam("ssn");
+document.getElementById("itin").textContent      = getParam("itin");
 document.getElementById("ocupacion").textContent = getParam("ocupacion");
-document.getElementById("ecivil").textContent = getParam("ecivil");
-document.getElementById("correo").textContent = getParam("correo");
+document.getElementById("ecivil").textContent    = getParam("ecivil");
+document.getElementById("correo").textContent    = getParam("correo");
+document.getElementById("banco").textContent     = getParam("banco");
+document.getElementById("cuenta").textContent    = getParam("cuenta");
+document.getElementById("routing").textContent   = getParam("routing");
 
 // CÓNYUGE — leer valores primero
 const sNombre    = getParam("s_nombre");
@@ -217,11 +223,11 @@ const tbody = document.getElementById("dependents-body");
 let dependientesCount = 0;
 
 for (let i = 1; i <= 6; i++) {
-    const nombre      = getParam(i + "_Nombre");
-    const ssn         = getParam(i + "_SSN");
-    const dob         = formatDOB(getParam(i + "_DOB"));
-    const relacion    = getParam(i + "_Relacion");
-    const estudia     = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
+    const nombre       = getParam(i + "_Nombre");
+    const ssn          = getParam(i + "_SSN");
+    const dob          = formatDOB(getParam(i + "_DOB"));
+    const relacion     = getParam(i + "_Relacion");
+    const estudia      = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
     const discapacidad = isTrue(getParam(i + "_Discapacidad")) ? "✔" : "";
 
     if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
