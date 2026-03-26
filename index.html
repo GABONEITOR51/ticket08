@@ -82,7 +82,7 @@
     }
 
     .signature-section {
-        margin-top: 90px; /* BAJADA DE 3 ENTERS */
+        margin-top: 90px;
         text-align: center;
         font-size: 14px;
     }
@@ -104,7 +104,7 @@
 
 <table class="main-table">
     <tr>
-        <td class="data-cell">
+        <td class="data-cell" id="cell-principal">
             <div class="section-title">Principal</div>
             <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
             <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
@@ -117,7 +117,7 @@
             <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
         </td>
 
-        <td class="data-cell">
+        <td class="data-cell" id="cell-conyuge">
             <div class="section-title">Cónyuge</div>
             <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
             <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
@@ -143,7 +143,6 @@
         <th style="width:35px;">Est</th>
         <th style="width:35px;">Disc</th>
     </tr>
-
     <tbody id="dependents-body"></tbody>
 </table>
 
@@ -167,7 +166,6 @@ function formatDOB(dateStr) {
     return `${meses[d.getMonth()]}/${d.getDate()}/${d.getFullYear()}`;
 }
 
-// ACEPTA CUALQUIER FORMATO DE TRUE QUE ENVÍE APPSHEET
 function isTrue(v) {
     if (!v) return false;
     v = v.toString().trim().toLowerCase();
@@ -185,28 +183,45 @@ document.getElementById("ocupacion").textContent = getParam("ocupacion");
 document.getElementById("ecivil").textContent = getParam("ecivil");
 document.getElementById("correo").textContent = getParam("correo");
 
-// CÓNYUGE
-document.getElementById("s_nombre").textContent = getParam("s_nombre");
-document.getElementById("s_domicilio").textContent = getParam("s_domicilio");
-document.getElementById("s_dob").textContent = formatDOB(getParam("s_dob"));
-document.getElementById("s_telefono").textContent = getParam("s_telefono");
-document.getElementById("s_ssn").textContent = getParam("s_ssn");
-document.getElementById("s_itin").textContent = getParam("s_itin");
-document.getElementById("s_ocupacion").textContent = getParam("s_ocupacion");
-document.getElementById("s_correo").textContent = getParam("s_correo");
+// CÓNYUGE — leer valores primero
+const sNombre    = getParam("s_nombre");
+const sDomicilio = getParam("s_domicilio");
+const sDob       = getParam("s_dob");
+const sTelefono  = getParam("s_telefono");
+const sSsn       = getParam("s_ssn");
+const sItin      = getParam("s_itin");
+const sOcupacion = getParam("s_ocupacion");
+const sCorreo    = getParam("s_correo");
+
+// Si al menos uno tiene datos, mostrar la sección
+const hayConyuge = [sNombre, sDomicilio, sDob, sTelefono, sSsn, sItin, sOcupacion, sCorreo]
+    .some(v => v.trim() !== "");
+
+if (hayConyuge) {
+    document.getElementById("s_nombre").textContent    = sNombre;
+    document.getElementById("s_domicilio").textContent = sDomicilio;
+    document.getElementById("s_dob").textContent       = formatDOB(sDob);
+    document.getElementById("s_telefono").textContent  = sTelefono;
+    document.getElementById("s_ssn").textContent       = sSsn;
+    document.getElementById("s_itin").textContent      = sItin;
+    document.getElementById("s_ocupacion").textContent = sOcupacion;
+    document.getElementById("s_correo").textContent    = sCorreo;
+} else {
+    // Ocultar columna cónyuge y expandir la del principal
+    document.getElementById("cell-conyuge").style.display = "none";
+    document.getElementById("cell-principal").setAttribute("colspan", "2");
+}
 
 // DEPENDIENTES
 const tbody = document.getElementById("dependents-body");
 let dependientesCount = 0;
 
 for (let i = 1; i <= 6; i++) {
-
-    const nombre = getParam(i + "_Nombre");
-    const ssn = getParam(i + "_SSN");
-    const dob = formatDOB(getParam(i + "_DOB"));
-    const relacion = getParam(i + "_Relacion");
-
-    const estudia = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
+    const nombre      = getParam(i + "_Nombre");
+    const ssn         = getParam(i + "_SSN");
+    const dob         = formatDOB(getParam(i + "_DOB"));
+    const relacion    = getParam(i + "_Relacion");
+    const estudia     = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
     const discapacidad = isTrue(getParam(i + "_Discapacidad")) ? "✔" : "";
 
     if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
@@ -227,7 +242,6 @@ for (let i = 1; i <= 6; i++) {
     tbody.innerHTML += row;
 }
 
-// SI NO HAY DEPENDIENTES → OCULTAR TABLA Y TÍTULO
 if (dependientesCount === 0) {
     document.getElementById("depend-table").style.display = "none";
     document.getElementById("depend-title").style.display = "none";
@@ -236,4 +250,3 @@ if (dependientesCount === 0) {
 
 </body>
 </html>
-
