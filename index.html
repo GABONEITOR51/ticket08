@@ -1,409 +1,258 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Corte de Caja · 805 MultiServices</title>
+
 <style>
-  :root{
-    --navy:#0f2747;
-    --espresso:#0f2747;
-    --brown:#15406b;
-    --caramel:#3a7bd5;
-    --amber:#7fb0e8;
-    --ink:#16222e;
-    --line:#cdd9e7;
-    --line2:#eaf0f8;
-    --sky-bg:#eef4fb;
-    --paper:#ffffff;
-    --green:#157f48;
-    --green-bg:#e8f4ec;
-    --red:#c0392b;
-    --red-bg:#fbece9;
-    --blue:#2c6e9e;
-    --mut:#9aa6b4;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    background:#dde6f1;
-    color:var(--ink);
-    font-family:"Segoe UI",Roboto,system-ui,-apple-system,Arial,sans-serif;
-    font-size:12px;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
-  }
-  .sheet{
-    width:100%;
-    max-width:8.5in;
-    min-height:11in;
-    margin:14px auto;
-    background:var(--paper);
-    padding:0.34in 0.36in 0.4in;
-    box-shadow:0 4px 22px rgba(0,0,0,.18);
-  }
-  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #333;
+        line-height: 1.4;
+        margin: 10px;
+    }
 
-  /* ---------- ENCABEZADO ---------- */
-  .range{
-    text-align:right;
-    font-weight:800;
-    font-size:17px;
-    letter-spacing:.5px;
-    color:var(--espresso);
-    margin:0 0 8px;
-  }
-  .range b{color:var(--caramel)}
-  .head{
-    display:flex;
-    align-items:stretch;
-    gap:12px;
-    border:1.5px solid var(--espresso);
-    border-radius:8px;
-    overflow:hidden;
-  }
-  .brand{
-    background:#fff;
-    color:var(--navy);
-    display:flex;
-    align-items:center;
-    gap:11px;
-    padding:10px 14px;
-    min-width:200px;
-    border-right:1px solid var(--line);
-  }
-  .brand .logo{
-    width:52px;height:52px;border-radius:50%;
-    object-fit:cover;background:#eef4fb;
-    border:2px solid var(--navy);flex:0 0 auto;
-    display:flex;align-items:center;justify-content:center;
-    font-weight:900;color:var(--navy);font-size:19px;
-  }
-  .brand .who{line-height:1.18}
-  .brand .co{font-weight:800;font-size:17px;color:var(--navy)}
-  .brand .emp{font-size:11px;color:#5a6675;margin-top:2px}
-  .kpis{
-    flex:1;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0 14px;
-    padding:8px 14px;
-    align-content:center;
-  }
-  .kpi{display:flex;justify-content:space-between;align-items:baseline;
-       padding:2.5px 0;border-bottom:1px solid var(--line2)}
-  .kpi:last-child{border-bottom:none}
-  .kpi .l{font-weight:800;color:#41546a;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px}
-  .kpi .v{font-weight:800;font-size:14px}
-  .kpi.in .v{color:var(--green)}
-  .kpi.out .v{color:var(--red)}
-  .kpi.corte .l,.kpi.corte .v{color:var(--brown)}
-  .kpi.entrega .v{color:var(--blue)}
-  .kpi.dif .v{font-size:12px}
-  .kpi.dif .v.fal{color:var(--red)}
-  .kpi.dif .v.sob{color:var(--green)}
-  .cobros{
-    display:flex;gap:7px;justify-content:flex-end;
-    margin:7px 0 0;
-  }
-  .chip{
-    border:1px solid var(--line);border-radius:14px;
-    padding:3px 11px;font-size:10.5px;font-weight:700;color:#41546a;
-    background:#f1f6fc;
-  }
-  .chip b{color:var(--brown)}
+    .title-header {
+        font-size: 26px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 5px;
+        color: #003366;
+    }
 
-  /* ---------- BLOQUE DE RESUMEN ---------- */
-  .summary{
-    display:grid;
-    grid-template-columns:2.1fr 1fr 1fr;
-    gap:8px;
-    margin:9px 0 6px;
-  }
-  .box{border:1px solid var(--line);border-radius:7px;overflow:hidden}
-  .box h4{
-    margin:0;font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;
-    font-weight:800;color:var(--navy);padding:5px 9px;background:#fff;
-    border-bottom:2px solid var(--navy);
-  }
-  .box.salidas h4{background:#fff}
-  .box.canc h4{background:#fff}
-  .rows{padding:4px 9px 6px}
-  .rows .r{display:flex;justify-content:space-between;align-items:baseline;
-     padding:2px 0;border-bottom:1px dotted var(--line2);font-size:11px}
-  .rows .r:last-child{border-bottom:none}
-  .rows .r .k{color:#1a1a1a;font-weight:600}
-  .rows .r .x{font-weight:800;color:#000;font-size:11px}
-  .rows .r .x.z{color:var(--mut);font-weight:600}
-  .rows.two{display:flex;gap:10px;padding:4px 9px 6px}
-  .rows.two .col{flex:1;min-width:0}
-  .rows.two .col .r .k{white-space:nowrap}
+    table.main-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
 
-  /* ---------- TABLA DE MOVIMIENTOS (cuadros separados) ---------- */
-  table{width:100%;border-collapse:collapse;margin-top:4px;table-layout:fixed}
-  thead th{
-    background:#fff;color:var(--navy);font-size:9px;
-    letter-spacing:.2px;text-transform:uppercase;font-weight:800;
-    padding:3px 4px;text-align:left;
-    border:1px solid var(--line);border-bottom:2px solid var(--navy);white-space:nowrap;
-  }
-  thead th.r,tbody td.r{text-align:right;white-space:nowrap}
-  thead th.c,tbody td.c{text-align:center}
-  tbody td{
-    padding:1px 4px;border:1px solid var(--line);
-    vertical-align:top;font-size:10px;line-height:1.1;
-    overflow-wrap:break-word;word-break:break-word;
-  }
-  /* las 4 columnas numéricas: nunca parten en vertical */
-  tbody td.r{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}
-  tbody tr:nth-child(even){background:var(--sky-bg)}
-  td.fch{border-left-width:3px;white-space:nowrap}
-  td.fch.i{border-left-color:var(--green)}
-  td.fch.o{border-left-color:var(--red)}
-  .dt{font-variant-numeric:tabular-nums;font-size:9.5px;font-weight:600;line-height:1.05}
-  .hr{font-variant-numeric:tabular-nums;font-size:8.5px;color:#5a6675;line-height:1.05}
-  .serv{font-weight:800;color:var(--blue);text-transform:uppercase;font-size:9.5px;line-height:1.08}
-  .desc{color:#5a6675;font-size:9px;margin-top:0;line-height:1.05}
-  .cli{font-weight:700;line-height:1.08}
-  .pay{font-size:8.5px;color:#5a6675;text-transform:uppercase;line-height:1.05;white-space:nowrap}
-  td.r{font-variant-numeric:tabular-nums;font-weight:700}
-  td.r.in{color:var(--green)}
-  td.r.out{color:var(--red)}
-  td.r.z{color:var(--mut);font-weight:500}
-  .obsx{display:block;font-weight:400;color:#6a7686;font-size:9px;line-height:1.05;margin-top:1px}
+    .data-cell {
+        vertical-align: top;
+        padding: 4px;
+        border: 1px solid #ccc;
+    }
 
-  /* ---------- BOTÓN ---------- */
-  .print-btn{
-    position:fixed;right:18px;bottom:18px;z-index:9;
-    background:var(--brown);color:#fff;border:none;border-radius:24px;
-    padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;
-    box-shadow:0 4px 14px rgba(0,0,0,.25);
-  }
-  .print-btn:hover{background:var(--espresso)}
+    .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #0056b3;
+        border-bottom: 1px solid #0056b3;
+        padding-bottom: 3px;
+    }
 
-  /* ---------- IMPRESIÓN ---------- */
-  @page{size:letter portrait;margin:0.3in}
-  @media print{
-    body{background:#fff}
-    .sheet{margin:0;box-shadow:none;width:100%;min-height:auto;padding:0}
-    table{width:100%}
-    .print-btn{display:none}
-    thead{display:table-header-group}
-    tr{break-inside:avoid}
-  }
+    .row {
+        margin-bottom: 4px;
+        display: flex;
+        align-items: baseline;
+    }
+
+    .label {
+        font-weight: bold;
+        width: 110px;
+        flex-shrink: 0;
+        color: #555;
+    }
+
+    .value {
+        flex-grow: 1;
+        word-wrap: break-word;
+    }
+
+    table.dependents-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    table.dependents-table th,
+    table.dependents-table td {
+        padding: 3px;
+        border: 1px solid #bbb;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    table.dependents-table td.name-left {
+        text-align: left;
+    }
+
+    table.dependents-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .signature-section {
+        margin-top: 90px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .signature-line {
+        margin-top: 25px;
+        border-top: 1px solid #000;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 5px;
+    }
 </style>
+
 </head>
 <body>
-<div class="sheet" id="sheet"></div>
-<button class="print-btn" onclick="window.print()">🖨 Imprimir</button>
+
+<div class="title-header">FORMULARIO PARA TAXES</div>
+
+<table class="main-table">
+    <tr>
+        <td class="data-cell" id="cell-principal">
+            <div class="section-title">Principal</div>
+            <div class="row"><span class="label">Nombre:</span> <span class="value" id="nombre"></span></div>
+            <div class="row"><span class="label">Domicilio:</span> <span class="value" id="domicilio"></span></div>
+            <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="dob"></span></div>
+            <div class="row"><span class="label">Teléfono:</span> <span class="value" id="telefono"></span></div>
+            <div class="row"><span class="label">SSN:</span> <span class="value" id="ssn"></span></div>
+            <div class="row"><span class="label">ITIN:</span> <span class="value" id="itin"></span></div>
+            <div class="row"><span class="label">Ocupación:</span> <span class="value" id="ocupacion"></span></div>
+            <div class="row"><span class="label">Estado Civil:</span> <span class="value" id="ecivil"></span></div>
+            <div class="row"><span class="label">Correo:</span> <span class="value" id="correo"></span></div>
+            <div class="row"><span class="label">Banco:</span> <span class="value" id="banco"></span></div>
+            <div class="row"><span class="label">Cuenta:</span> <span class="value" id="cuenta"></span></div>
+            <div class="row"><span class="label">Routing:</span> <span class="value" id="routing"></span></div>
+        </td>
+
+        <td class="data-cell" id="cell-conyuge">
+            <div class="section-title">Cónyuge</div>
+            <div class="row"><span class="label">Nombre:</span> <span class="value" id="s_nombre"></span></div>
+            <div class="row"><span class="label">Domicilio:</span> <span class="value" id="s_domicilio"></span></div>
+            <div class="row"><span class="label">Fecha Nac.:</span> <span class="value" id="s_dob"></span></div>
+            <div class="row"><span class="label">Teléfono:</span> <span class="value" id="s_telefono"></span></div>
+            <div class="row"><span class="label">SSN:</span> <span class="value" id="s_ssn"></span></div>
+            <div class="row"><span class="label">ITIN:</span> <span class="value" id="s_itin"></span></div>
+            <div class="row"><span class="label">Ocupación:</span> <span class="value" id="s_ocupacion"></span></div>
+            <div class="row"><span class="label">Correo:</span> <span class="value" id="s_correo"></span></div>
+        </td>
+    </tr>
+</table>
+
+<h2 id="depend-title" style="margin-top:20px; color:#0056b3;">Dependientes</h2>
+
+<table class="dependents-table" id="depend-table">
+    <tr>
+        <th>#</th>
+        <th>Nombre Dependiente</th>
+        <th>SSN</th>
+        <th>Fecha Nac.</th>
+        <th>Relación</th>
+        <th style="width:35px;">Est</th>
+        <th style="width:35px;">Disc</th>
+    </tr>
+    <tbody id="dependents-body"></tbody>
+</table>
+
+<div class="signature-section">
+    <div class="signature-line"></div>
+    firma<br>
+    Nombre y fecha
+</div>
 
 <script>
-/* =====================================================================
-   CONTRATO DE DATOS  ·  URL:  index.html#d=<ENCODEURL(payload)>
-   payload = HEADER || ROW ~~ ROW ~~ ROW ...
-   - separador de secciones (header vs filas): ||  (doble pipe)
-   - separador entre filas:                    ~~  (doble tilde)
-   - separador de campos:                      ^
-   HEADER (33 campos, en orden):
-     0 fechaI   1 fechaF   2 empleado   3 fotoURL
-     4 inicioCaja 5 entradas 6 salidas 7 delCorte
-     8 cobroIns 9 entrega 10 cobroDmv 11 diferencia 12 difLabel
-     13 E_INS 14 E_LAT 15 E_DMV 16 E_LIV 17 E_RIA
-     18 E_VIA 19 E_INT 20 E_MON 21 E_RAMOS 22 E_OTROS
-     23 S_TAR 24 S_DEB 25 S_OTS 26 S_CHE 27 S_ZELL
-     28 S_VIA 29 S_INT 30 S_MON 31 S_RIA 32 S_PAY
-   ROW (12 campos):
-     0 tipoMov 1 fecha 2 hora 3 descripcion 4 categoria
-     5 cliente 6 formaPago 7 col805(comision) 8 total
-     9 entrada 10 salida 11 observacion
-   ===================================================================== */
-const SEC='||', REC='~~', F='^';
-
-/* ---- datos de muestra (se ven si abres el HTML sin #d=) ---- */
-const DEMO_H = ["Jun-26-2026","Jun-26-2026","805 MultiServices","","400","6387","1612","4775","495.00","4776","1014.00","-1","Sobrante",
-  "855","0","1195","770","0","2729","0","0","0","795","450.11","111","90","0","0","0","0","0","0","0"];
-const DEMO_R = [
-  ["➕ Entrada","6/26/2026","9:36:38 AM","PAGAR DEUDA","PAGO","CARLOS HUMBERTO RIVAS PINEDA","💵 EFECTIVO","0","485","485","0",""],
-  ["➕ Entrada","6/26/2026","10:50:31 AM","LIVESCAN","LIVESCAN","BRENDALIN HERNANDEZ MARTINEZ","🏢 PAGO DIRECTO A COMPAÑIA","25","74","74","0",""],
-  ["➕ Entrada","6/26/2026","11:59:58 AM","NUEVA POLIZA","INSUR","MARCELINO PABLO ISAAC","💵 EFECTIVO","180","355","355","0",""],
-  ["➖ Salida","6/26/2026","12:24:22 PM","OTRA SALIDA","OTRA SALIDA","","💵 EFECTIVO","0","45","0","45","conrado morales"],
-  ["➕ Entrada","6/26/2026","12:37:04 PM","VIAMERIC","ENVIO/BILL","NAYELI YERALDI SAUCEDA GUERRERO","💵 EFECTIVO","20","1757","1757","0",""],
-  ["➖ Salida","6/26/2026","3:13:19 PM","OTRA SALIDA","OTRA SALIDA","MANUEL DE JESUS VILLARREAL","💵 EFECTIVO","0","45","0","45","cancelacion de cita"],
-  ["➕ Entrada","6/26/2026","3:25:15 PM","STICKER","DMV","CELSO SANTIAGO APOLINAR","💵 EFECTIVO","25","263","263","0",""],
-  ["➕ Entrada","6/26/2026","7:19:23 PM","ACTA DE NAC.","ACTA","","💵 EFECTIVO","40","45","45","0",""]
-];
-
-/* ---------------- parseo de la URL ---------------- */
-function smartDecode(raw){
-  let s=raw;
-  try{ s=decodeURIComponent(raw); }catch(e){ s=raw; }
-  // Si tras decodificar NO apareció el separador de sección pero todavía
-  // quedan secuencias %xx, lo más probable es doble codificación: decodifica otra vez.
-  if(s.indexOf(SEC)===-1 && /%[0-9A-Fa-f]{2}/.test(s)){
-    try{ s=decodeURIComponent(s); }catch(e){}
-  }
-  return s;
-}
-function readPayload(){
-  let raw="";
-  const h=location.hash||"";
-  if(h.indexOf("#d=")===0) raw=h.slice(3);
-  else if(new URLSearchParams(location.search).get("d")) raw=new URLSearchParams(location.search).get("d");
-  if(!raw) return null;
-  raw=smartDecode(raw);
-  const parts=raw.split(SEC);
-  const H=(parts[0]||"").split(F);
-  const R=(parts[1]||"").trim()
-    ? parts[1].split(REC).map(s=>s.trim()).filter(s=>s!=="").map(r=>r.split(F))
-    : [];
-  return {H,R};
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return decodeURIComponent(url.searchParams.get(name) || "");
 }
 
-/* ---------------- helpers ---------------- */
-function toNum(v){
-  if(v===undefined||v===null) return 0;
-  const n=parseFloat((""+v).replace(/[^0-9.\-]/g,""));
-  return isNaN(n)?0:n;
-}
-function money(v){return "$"+toNum(v).toLocaleString("en-US",{maximumFractionDigits:2});}
-function dash(v){            // muestra "-" si es 0 / vacío
-  const s=(v==null?"":""+v).trim();
-  if(s===""||s==="-") return {t:"-",z:true};
-  const n=toNum(s);
-  if(n===0) return {t:"-",z:true};
-  return {t:n.toLocaleString("en-US",{maximumFractionDigits:2}),z:false};
-}
-function esc(s){return (s==null?"":""+s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
-function cut10(s){const a=Array.from(s||"");return a.length>10?a.slice(0,10).join(""):(s||"");}
-function payFmt(s){return cut10((s||"").replace(/^([^\x00-\x7F]+)\s+/,"$1"));}
-function isOut(tipo){return /salid/i.test(tipo||"");}
-const MESES={ene:"ENERO",jan:"ENERO",feb:"FEBRERO",mar:"MARZO",abr:"ABRIL",apr:"ABRIL",
-  may:"MAYO",jun:"JUNIO",jul:"JULIO",ago:"AGOSTO",aug:"AGOSTO",sep:"SEPTIEMBRE",set:"SEPTIEMBRE",
-  oct:"OCTUBRE",nov:"NOVIEMBRE",dic:"DICIEMBRE",dec:"DICIEMBRE"};
-function fechaFull(s){
-  s=(""+(s||"")).trim();
-  if(!s) return "";
-  return s.replace(/[A-Za-zÁ-úÑñ]{3,}\.?/, m=>{
-    const k=m.slice(0,3).toLowerCase();
-    return MESES[k]||m.toUpperCase();
-  }).toUpperCase();
+function formatDOB(dateStr) {
+    if (!dateStr) return "";
+    const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    return `${meses[d.getMonth()]}/${d.getDate()}/${d.getFullYear()}`;
 }
 
-/* ---------------- render ---------------- */
-function render(H,R){
-  const g=i=>H[i]!==undefined?H[i]:"";
-  const dif=g(11), difLab=g(12);
-  const entregaBlank=(g(9)===""||g(9)==null);
-
-  let difHtml="";
-  if(!entregaBlank && dif!==""){
-    const sob=/sob/i.test(difLab);
-    difHtml=`<span class="v ${sob?'sob':'fal'} num">${esc(dif)} ${esc(difLab)}</span>`;
-  }else{ difHtml=`<span class="v num">—</span>`; }
-
-  const logo = g(3)
-    ? `<img class="logo" src="${esc(g(3))}" alt="">`
-    : `<div class="logo">805</div>`;
-
-  /* ----- grupos del resumen ----- */
-  const entradasA=[["INSURANCE",13],["LATINO",14],["DMV",15],["LIVESCAN",16],["RIA",17]];
-  const entradasB=[["VIAMERICAS",18],["INTERMEX",19],["WESTER UN",20],["RAMOS CAJAS",21],["OTRAS ENTRADAS",22]];
-  const salidas =[["TARJETA",23],["A DEBER",24],["OTRAS SALIDAS",25],["CHEQUE",26],["ZELLE",27]];
-  const canc    =[["CANC VIAMERIC",28],["CANC INTERMX",29],["CANC WESTER",30],["CANC RIA",31],["PAYOUT RIA",32]];
-  const titleCase = s => s.toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
-  const rowsHtml = arr => arr.map(([k,i])=>{
-    const d=dash(g(i));
-    return `<div class="r"><span class="k">${titleCase(k)}</span><span class="x num ${d.z?'z':''}">${d.t}</span></div>`;
-  }).join("");
-
-  /* ----- filas de la tabla ----- */
-  const trs = R.map(r=>{
-    const out=isOut(r[0]);
-    const c805=dash(r[7]), tot=dash(r[8]), ent=dash(r[9]), sal=dash(r[10]);
-    return `<tr>
-      <td class="fch ${out?'o':'i'}"><div class="dt">${esc(r[1]||'')}</div><div class="hr">${esc(r[2]||'')}</div></td>
-      <td><div class="serv">${esc(r[4]||'')}</div><div class="desc">${esc(r[3]||'')}</div></td>
-      <td class="cli">${esc(r[5]||'')}${(r[11]&&(""+r[11]).trim())?`<span class="obsx">(${esc(r[11])})</span>`:''}</td>
-      <td><div class="pay">${esc(payFmt(r[6]))}</div></td>
-      <td class="r num ${c805.z?'z':''}">${c805.t}</td>
-      <td class="r num ${tot.z?'z':''}">${tot.t}</td>
-      <td class="r num in ${ent.z?'z':''}">${ent.t}</td>
-      <td class="r num out ${sal.z?'z':''}">${sal.t}</td>
-    </tr>`;
-  }).join("");
-
-  document.getElementById("sheet").innerHTML=`
-  <div class="range">${esc(fechaFull(g(0)))} &nbsp;<b>a</b>&nbsp; ${esc(fechaFull(g(1)))}</div>
-
-  <div class="head">
-    <div class="brand">
-      ${logo}
-      <div class="who">
-        <div class="co">805 MultiServices</div>
-        <div class="emp">${esc(g(2)||'Corte de caja')}</div>
-      </div>
-    </div>
-    <div class="kpis">
-      <div class="kpi"><span class="l">Inicio Caja</span><span class="v num">${money(g(4))}</span></div>
-      <div class="kpi in"><span class="l">Entradas</span><span class="v num">${money(g(5))}</span></div>
-      <div class="kpi out"><span class="l">Salidas</span><span class="v num">${money(g(6))}</span></div>
-      <div class="kpi corte"><span class="l">Del Corte</span><span class="v num">${money(g(7))}</span></div>
-      <div class="kpi entrega"><span class="l">Entrega</span><span class="v num">${entregaBlank?'—':money(g(9))}</span></div>
-      <div class="kpi dif"><span class="l">Diferencia</span>${difHtml}</div>
-    </div>
-  </div>
-
-  <div class="summary">
-    <div class="box"><h4>Entradas por servicio</h4><div class="rows two"><div class="col">${rowsHtml(entradasA)}</div><div class="col">${rowsHtml(entradasB)}</div></div></div>
-    <div class="box salidas"><h4>Pagos / Salidas</h4><div class="rows">${rowsHtml(salidas)}</div></div>
-    <div class="box canc"><h4>Cancelaciones</h4><div class="rows">${rowsHtml(canc)}</div></div>
-  </div>
-
-  <table>
-    <colgroup>
-      <col style="width:11%"><col style="width:14%"><col style="width:42%"><col style="width:10%">
-      <col style="width:5%"><col style="width:6%"><col style="width:6%"><col style="width:6%">
-    </colgroup>
-    <thead><tr>
-      <th>Fecha/H</th><th>Servicio</th><th>Cliente</th><th>F. Pago</th>
-      <th class="r">805</th><th class="r">Total</th><th class="r">Entra</th>
-      <th class="r">Salida</th>
-    </tr></thead>
-    <tbody>${trs || '<tr><td colspan="8" style="text-align:center;color:#9aa6b4;padding:18px">Sin movimientos</td></tr>'}</tbody>
-  </table>`;
+function isTrue(v) {
+    if (!v) return false;
+    v = v.toString().trim().toLowerCase();
+    return v === "true" || v === "1" || v === "sí" || v === "si" || v === "y";
 }
 
-/* ---------------- diagnóstico (URL ...?dbg=1#d=...) ---------------- */
-function showDebug(p){
-  const q=new URLSearchParams(location.search);
-  if(q.get("dbg")!=="1") return;
-  const H=p?p.H:[], R=p?p.R:[];
-  const okH = H.length===33 ? "OK" : "⚠ esperaba 33";
-  let rows = R.slice(0,6).map((r,i)=>
-    `fila ${i}: ${r.length} campos ${r.length===12?'OK':'⚠ esperaba 12'}  →  [${r.map(x=>x===""?"·":x).join(" | ")}]`
-  ).join("\n");
-  const box=document.createElement("pre");
-  box.style.cssText="white-space:pre-wrap;font:11px/1.4 monospace;background:#1f2933;color:#d6e2f0;"+
-    "padding:12px 14px;margin:14px auto;max-width:8.5in;border-radius:8px;overflow:auto";
-  box.textContent=
-    "DIAGNÓSTICO\n"+
-    "Cabecera: "+H.length+" campos ("+okH+")\n"+
-    "Filas detectadas: "+R.length+"\n"+
-    "Separadores: sección ||  fila ~~  campo ^\n"+
-    "Si una fila trae 1 solo campo, tus valores NO se están separando por ^.\n\n"+
-    rows;
-  document.body.appendChild(box);
+// PRINCIPAL
+document.getElementById("nombre").textContent    = getParam("nombre");
+document.getElementById("domicilio").textContent = getParam("domicilio");
+document.getElementById("dob").textContent       = formatDOB(getParam("dob"));
+document.getElementById("telefono").textContent  = getParam("telefono");
+document.getElementById("ssn").textContent       = getParam("ssn");
+document.getElementById("itin").textContent      = getParam("itin");
+document.getElementById("ocupacion").textContent = getParam("ocupacion");
+document.getElementById("ecivil").textContent    = getParam("ecivil");
+document.getElementById("correo").textContent    = getParam("correo");
+document.getElementById("banco").textContent     = getParam("banco");
+document.getElementById("cuenta").textContent    = getParam("cuenta");
+document.getElementById("routing").textContent   = getParam("routing");
+
+// CÓNYUGE — leer valores primero
+const sNombre    = getParam("s_nombre");
+const sDomicilio = getParam("s_domicilio");
+const sDob       = getParam("s_dob");
+const sTelefono  = getParam("s_telefono");
+const sSsn       = getParam("s_ssn");
+const sItin      = getParam("s_itin");
+const sOcupacion = getParam("s_ocupacion");
+const sCorreo    = getParam("s_correo");
+
+// Si al menos uno tiene datos, mostrar la sección
+const hayConyuge = [sNombre, sDomicilio, sDob, sTelefono, sSsn, sItin, sOcupacion, sCorreo]
+    .some(v => v.trim() !== "");
+
+if (hayConyuge) {
+    document.getElementById("s_nombre").textContent    = sNombre;
+    document.getElementById("s_domicilio").textContent = sDomicilio;
+    document.getElementById("s_dob").textContent       = formatDOB(sDob);
+    document.getElementById("s_telefono").textContent  = sTelefono;
+    document.getElementById("s_ssn").textContent       = sSsn;
+    document.getElementById("s_itin").textContent      = sItin;
+    document.getElementById("s_ocupacion").textContent = sOcupacion;
+    document.getElementById("s_correo").textContent    = sCorreo;
+} else {
+    // Ocultar columna cónyuge y expandir la del principal
+    document.getElementById("cell-conyuge").style.display = "none";
+    document.getElementById("cell-principal").setAttribute("colspan", "2");
 }
 
-/* ---------------- arranque ---------------- */
-(function(){
-  const p=readPayload();
-  if(p){ render(p.H,p.R); }
-  else { render(DEMO_H,DEMO_R); }
-  showDebug(p);
-  if(new URLSearchParams(location.search).get("p")==="1"){ setTimeout(()=>window.print(),400); }
-})();
-window.addEventListener("hashchange",()=>{const p=readPayload(); if(p) render(p.H,p.R);});
+// DEPENDIENTES
+const tbody = document.getElementById("dependents-body");
+let dependientesCount = 0;
+
+for (let i = 1; i <= 6; i++) {
+    const nombre       = getParam(i + "_Nombre");
+    const ssn          = getParam(i + "_SSN");
+    const dob          = formatDOB(getParam(i + "_DOB"));
+    const relacion     = getParam(i + "_Relacion");
+    const estudia      = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
+    const discapacidad = isTrue(getParam(i + "_Discapacidad")) ? "✔" : "";
+
+    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
+
+    dependientesCount++;
+
+    const row = `
+        <tr>
+            <td>${i}.-</td>
+            <td class="name-left">${nombre}</td>
+            <td>${ssn}</td>
+            <td>${dob}</td>
+            <td>${relacion}</td>
+            <td>${estudia}</td>
+            <td>${discapacidad}</td>
+        </tr>
+    `;
+    tbody.innerHTML += row;
+}
+
+if (dependientesCount === 0) {
+    document.getElementById("depend-table").style.display = "none";
+    document.getElementById("depend-title").style.display = "none";
+}
 </script>
+
 </body>
 </html>
