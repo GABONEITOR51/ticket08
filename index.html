@@ -175,6 +175,17 @@ function isTrue(v) {
     return v === "true" || v === "1" || v === "sí" || v === "si" || v === "y";
 }
 
+// Reconoce "vacío disfrazado": strings vacíos, "--", "-", y fechas placeholder
+// tipo "/00/0", "00/00/0000", "0/0/0" que AppSheet manda cuando el campo real está vacío.
+function esVacio(v) {
+    if (v === null || v === undefined) return true;
+    const t = v.toString().trim();
+    if (t === "") return true;
+    if (t === "--" || t === "-") return true;
+    if (/^[\/\-\s0]*$/.test(t)) return true; // solo compuesto de "/", "-", espacios y "0"
+    return false;
+}
+
 // PRINCIPAL
 document.getElementById("nombre").textContent    = getParam("nombre");
 document.getElementById("domicilio").textContent = getParam("domicilio");
@@ -189,7 +200,7 @@ document.getElementById("banco").textContent     = getParam("banco");
 document.getElementById("cuenta").textContent    = getParam("cuenta");
 document.getElementById("routing").textContent   = getParam("routing");
 
-// CÓNYUGE — leer valores primero
+// CÓNYUGE — leer valores crudos primero
 const sNombre    = getParam("s_nombre");
 const sDomicilio = getParam("s_domicilio");
 const sDob       = getParam("s_dob");
@@ -199,40 +210,47 @@ const sItin      = getParam("s_itin");
 const sOcupacion = getParam("s_ocupacion");
 const sCorreo    = getParam("s_correo");
 
-// Si al menos uno tiene datos, mostrar la sección
+// Solo se considera que "hay cónyuge" si AL MENOS UN campo tiene un valor real
+// (no vacío, no "--", no fecha placeholder). Esto corrige el falso positivo
+// que ocurría cuando AppSheet manda "--" / "/00/0" en campos sin dato.
 const hayConyuge = [sNombre, sDomicilio, sDob, sTelefono, sSsn, sItin, sOcupacion, sCorreo]
-    .some(v => v.trim() !== "");
+    .some(v => !esVacio(v));
 
 if (hayConyuge) {
-    document.getElementById("s_nombre").textContent    = sNombre;
-    document.getElementById("s_domicilio").textContent = sDomicilio;
-    document.getElementById("s_dob").textContent       = formatDOB(sDob);
-    document.getElementById("s_telefono").textContent  = sTelefono;
-    document.getElementById("s_ssn").textContent       = sSsn;
-    document.getElementById("s_itin").textContent      = sItin;
-    document.getElementById("s_ocupacion").textContent = sOcupacion;
-    document.getElementById("s_correo").textContent    = sCorreo;
+    document.getElementById("s_nombre").textContent    = esVacio(sNombre) ? "" : sNombre;
+    document.getElementById("s_domicilio").textContent = esVacio(sDomicilio) ? "" : sDomicilio;
+    document.getElementById("s_dob").textContent       = esVacio(sDob) ? "" : formatDOB(sDob);
+    document.getElementById("s_telefono").textContent  = esVacio(sTelefono) ? "" : sTelefono;
+    document.getElementById("s_ssn").textContent       = esVacio(sSsn) ? "" : sSsn;
+    document.getElementById("s_itin").textContent      = esVacio(sItin) ? "" : sItin;
+    document.getElementById("s_ocupacion").textContent = esVacio(sOcupacion) ? "" : sOcupacion;
+    document.getElementById("s_correo").textContent    = esVacio(sCorreo) ? "" : sCorreo;
 } else {
     // Ocultar columna cónyuge y expandir la del principal
     document.getElementById("cell-conyuge").style.display = "none";
     document.getElementById("cell-principal").setAttribute("colspan", "2");
 }
 
-// DEPENDIENTES
+// DEPENDIENTES — mismo criterio de "vacío disfrazado" aplicado por consistencia
 const tbody = document.getElementById("dependents-body");
 let dependientesCount = 0;
 
 for (let i = 1; i <= 6; i++) {
-    const nombre       = getParam(i + "_Nombre");
-    const ssn          = getParam(i + "_SSN");
-    const dob          = formatDOB(getParam(i + "_DOB"));
-    const relacion     = getParam(i + "_Relacion");
+    const nombreRaw       = getParam(i + "_Nombre");
+    const ssnRaw          = getParam(i + "_SSN");
+    const dobRaw          = getParam(i + "_DOB");
+    const relacionRaw     = getParam(i + "_Relacion");
     const estudia      = isTrue(getParam(i + "_Estudia")) ? "✔" : "";
     const discapacidad = isTrue(getParam(i + "_Discapacidad")) ? "✔" : "";
 
-    if (!nombre && !ssn && !dob && !relacion && !estudia && !discapacidad) continue;
+    if (esVacio(nombreRaw) && esVacio(ssnRaw) && esVacio(dobRaw) && esVacio(relacionRaw) && !estudia && !discapacidad) continue;
 
     dependientesCount++;
+
+    const nombre   = esVacio(nombreRaw) ? "" : nombreRaw;
+    const ssn      = esVacio(ssnRaw) ? "" : ssnRaw;
+    const dob      = esVacio(dobRaw) ? "" : formatDOB(dobRaw);
+    const relacion = esVacio(relacionRaw) ? "" : relacionRaw;
 
     const row = `
         <tr>
